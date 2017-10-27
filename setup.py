@@ -8,7 +8,7 @@ class PyTest(TestCommand):
 
     def initialize_options(self):
         TestCommand.initialize_options(self)
-        self.pytest_args = ["tests/"]
+        self.pytest_args = ["test_bookstore.py"]
 
     def finalize_options(self):
         TestCommand.finalize_options(self)
