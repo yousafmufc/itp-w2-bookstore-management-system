@@ -14,7 +14,7 @@ def get_author_by_name(bookstore, name):
     pass
 
 
-def add_book(bookstore, title, isbn, author_id):
+def add_book(bookstore, title, isbn, author):
     pass
 
 
