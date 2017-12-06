@@ -1,74 +1,73 @@
 import unittest
 
-from bookstore import *
+from bookstore import (
+    create_bookstore, get_bookstore_name, get_book_by_title,
+    get_author_by_name, add_author, add_book, get_books_by_author)
 
 
-class BookstoreTestCase(unittest.TestCase):
-    def test_create_bookstore(self):
-        store = create_bookstore("rmotr's bookstore")
-        self.assertEqual(store['name'], "rmotr's bookstore")
+def test_create_bookstore():
+    store = create_bookstore("rmotr's bookstore")
+    name = get_bookstore_name(store)
+    assert name == "rmotr's bookstore"
 
-    def test_add_get_authors(self):
-        store = create_bookstore("rmotr's bookstore")
 
-        poe = add_author(store, 'Edgar Alan Poe', 'US')
-        borges = add_author(store, 'Jorge Luis Borges', 'AR')
-        joyce = add_author(store, 'James Joyce', 'UK')
+def test_add_get_authors():
+    store = create_bookstore("rmotr's bookstore")
 
-        self.assertEqual(poe['name'], 'Edgar Alan Poe')
-        self.assertIsNotNone(poe['id'])
-        self.assertEqual(poe['nationality'], 'US')
+    poe = add_author(store, 'Edgar Alan Poe', 'US')
+    borges = add_author(store, 'Jorge Luis Borges', 'AR')
+    joyce = add_author(store, 'James Joyce', 'UK')
 
-        self.assertEqual(borges['name'], 'Jorge Luis Borges')
-        self.assertIsNotNone(borges['id'])
-        self.assertEqual(borges['nationality'], 'AR')
+    assert poe['name'] == 'Edgar Alan Poe'
+    assert poe['nationality'] == 'US'
 
-        self.assertEqual(joyce['name'], 'James Joyce')
-        self.assertIsNotNone(joyce['id'])
-        self.assertEqual(joyce['nationality'], 'UK')
+    assert borges['name'] == 'Jorge Luis Borges'
+    assert borges['nationality'] == 'AR'
 
-        author = get_author_by_name(store, 'James Joyce')
-        self.assertEqual(author['id'], joyce['id'])
-        self.assertEqual(author['name'], joyce['name'])
-        self.assertEqual(author['nationality'], joyce['nationality'])
+    assert joyce['name'] == 'James Joyce'
+    assert joyce['nationality'] == 'UK'
 
-        author = get_author_by_id(store, poe['id'])
-        self.assertEqual(author['id'], poe['id'])
-        self.assertEqual(author['name'], poe['name'])
-        self.assertEqual(author['nationality'], poe['nationality'])
+    author = get_author_by_name(store, 'James Joyce')
+    assert author['name'] == joyce['name']
+    assert author['nationality'] == joyce['nationality']
 
-    def test_add_get_books(self):
-        store = create_bookstore("rmotr's bookstore")
+    author = get_author_by_name(store, 'Edgar Alan Poe')
+    assert author['name'] == poe['name']
+    assert author['nationality'] == poe['nationality']
 
-        poe = add_author(store, 'Edgar Alan Poe', 'US')
-        borges = add_author(store, 'Jorge Luis Borges', 'AR')
-        joyce = add_author(store, 'James Joyce', 'UK')
 
-        raven = add_book(store, 'The Raven', 'XXX-1', poe['id'])
-        ulysses = add_book(store, 'Ulysses', 'XXX-2', joyce['id'])
-        ficciones = add_book(store, 'Ficciones', 'XXX-3', borges['id'])
-        aleph = add_book(store, 'El Aleph', 'XXX-4', borges['id'])
+def test_add_get_books():
+    store = create_bookstore("rmotr's bookstore")
 
-        book = get_book_by_title(store, 'The Raven')
-        self.assertEqual(book['title'], 'The Raven')
-        self.assertEqual(book['isbn'], 'XXX-1')
-        self.assertEqual(book['author_id'], poe['id'])
+    poe = add_author(store, 'Edgar Alan Poe', 'US')
+    borges = add_author(store, 'Jorge Luis Borges', 'AR')
+    joyce = add_author(store, 'James Joyce', 'UK')
 
-        book = get_book_by_id(store, ulysses['id'])
+    raven = add_book(store, 'The Raven', 'XXX-1', 'Edgar Alan Poe')
+    ulysses = add_book(store, 'Ulysses', 'XXX-2', 'James Joyce')
+    ficciones = add_book(store, 'Ficciones', 'XXX-3', 'Jorge Luis Borges')
+    aleph = add_book(store, 'El Aleph', 'XXX-4', 'Jorge Luis Borges')
 
-        self.assertEqual(book['title'], 'Ulysses')
-        self.assertEqual(book['isbn'], 'XXX-2')
-        self.assertEqual(book['author_id'], joyce['id'])
+    book = get_book_by_title(store, 'The Raven')
+    assert book['title'] == 'The Raven'
+    assert book['isbn'] == 'XXX-1'
+    assert book['author'] == 'Edgar Alan Poe'
 
-        books = get_books_by_author(store, borges['id'])
-        self.assertEqual(len(books), 2)
+    book = get_book_by_title(store, 'Ulysses')
 
-        book1 = books[0]
-        self.assertEqual(book1['title'], 'Ficciones')
-        self.assertEqual(book1['isbn'], 'XXX-3')
-        self.assertEqual(book1['author_id'], borges['id'])
+    assert book['title'] == 'Ulysses'
+    assert book['isbn'] == 'XXX-2'
+    assert book['author'] == 'James Joyce'
 
-        book2 = books[1]
-        self.assertEqual(book2['title'], 'El Aleph')
-        self.assertEqual(book2['isbn'], 'XXX-4')
-        self.assertEqual(book1['author_id'], borges['id'])
+    books = get_books_by_author(store, 'Jorge Luis Borges')
+    assert len(books) == 2
+
+    book1 = books[0]
+    assert book1['title'] == 'Ficciones'
+    assert book1['isbn'] == 'XXX-3'
+    assert book1['author'] == 'Jorge Luis Borges'
+
+    book2 = books[1]
+    assert book2['title'] == 'El Aleph'
+    assert book2['isbn'] == 'XXX-4'
+    assert book1['author'] == 'Jorge Luis Borges'
