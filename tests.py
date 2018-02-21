@@ -12,11 +12,11 @@ def test_create_bookstore():
 def test_add_get_authors():
     store = create_bookstore("rmotr's bookstore")
 
-    poe = add_author(store, 'Edgar Alan Poe', 'US')
+    poe = add_author(store, 'Edgar Allan Poe', 'US')
     borges = add_author(store, 'Jorge Luis Borges', 'AR')
     joyce = add_author(store, 'James Joyce', 'UK')
 
-    assert poe['name'] == 'Edgar Alan Poe'
+    assert poe['name'] == 'Edgar Allan Poe'
     assert poe['nationality'] == 'US'
 
     assert borges['name'] == 'Jorge Luis Borges'
@@ -29,7 +29,7 @@ def test_add_get_authors():
     assert author['name'] == joyce['name']
     assert author['nationality'] == joyce['nationality']
 
-    author = get_author_by_name(store, 'Edgar Alan Poe')
+    author = get_author_by_name(store, 'Edgar Allan Poe')
     assert author['name'] == poe['name']
     assert author['nationality'] == poe['nationality']
 
@@ -37,11 +37,11 @@ def test_add_get_authors():
 def test_add_get_books():
     store = create_bookstore("rmotr's bookstore")
 
-    poe = add_author(store, 'Edgar Alan Poe', 'US')
+    poe = add_author(store, 'Edgar Allan Poe', 'US')
     borges = add_author(store, 'Jorge Luis Borges', 'AR')
     joyce = add_author(store, 'James Joyce', 'UK')
 
-    raven = add_book(store, 'The Raven', 'XXX-1', 'Edgar Alan Poe')
+    raven = add_book(store, 'The Raven', 'XXX-1', 'Edgar Allan Poe')
     ulysses = add_book(store, 'Ulysses', 'XXX-2', 'James Joyce')
     ficciones = add_book(store, 'Ficciones', 'XXX-3', 'Jorge Luis Borges')
     aleph = add_book(store, 'El Aleph', 'XXX-4', 'Jorge Luis Borges')
@@ -49,7 +49,7 @@ def test_add_get_books():
     book = get_book_by_title(store, 'The Raven')
     assert book['title'] == 'The Raven'
     assert book['isbn'] == 'XXX-1'
-    assert book['author'] == 'Edgar Alan Poe'
+    assert book['author'] == 'Edgar Allan Poe'
 
     book = get_book_by_title(store, 'Ulysses')
 
